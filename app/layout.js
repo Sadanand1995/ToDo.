@@ -1,5 +1,6 @@
 import Header from "./Header";
 import "../styles/app.scss";
+import { ContextProvider } from "../components/Clients";
 
 export const metadata = {
   title: "ToDo App",
@@ -10,8 +11,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <Header />
-        {children}
+        <ContextProvider>
+          <>
+            <Header />
+            {children}
+          </>
+        </ContextProvider>
       </body>
     </html>
   );
