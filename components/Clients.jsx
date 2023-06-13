@@ -1,20 +1,21 @@
 "use client";
 
-import { createContext, useState } from "react";
+import Link from "next/link";
+import { createContext, useContext, useState } from "react";
 
-export const Context = createContext({ user: {} });
+export const UserContext = createContext({ user: {} });
 
-export const ContextProvider = ({ children }) => {
+export const UserProvider = ({ children }) => {
   const [user, setUser] = useState({});
   return (
-    <Context.Provider
+    <UserContext.Provider
       value={{
         user,
         setUser,
       }}
     >
       {children}
-    </Context.Provider>
+    </UserContext.Provider>
   );
 };
 
@@ -23,9 +24,27 @@ export const LogoutBtn = () => {
     alert("LoggedOut");
   };
 
-  return (
+  const { user } = useContext(UserContext);
+
+  return user.id ? (
     <button className="btn" onClick={logoutHandler}>
       Logout
     </button>
+  ) : (
+    <Link href={"/login"}>Login</Link>
+  );
+};
+
+export const TodoHandlinghBtn = ({ id, completed }) => {
+  const deleteHandler = () => {
+    alert(`Deleted : ${id}`);
+  };
+  return (
+    <>
+      <input type="checkbox" checked={completed} />
+      <button className="btn" onClick={() => deleteHandler(id)}>
+        Delete
+      </button>
+    </>
   );
 };
